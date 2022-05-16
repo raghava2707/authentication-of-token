@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Document</title>
+
+</head>
+
+<body align="center" >
+
+<h1>CRUD OPERATIONS</h1>
+
+<form>
+
+ID:<input type="text" id="_id" name="_id"><br>
+
+Name:<input type="text" id="name" name="name"><br>
+
+age:<input type="text" id="age" name="age"><br><br>
+
+<!-- <input type="submit" value="Submit"> -->
+
+<button onclick="addData()">add</button>
+
+<button onclick="fetchData()">Fetch</button>
+
+<button onclick="deleteData()">DELETE</button>
+
+<button onclick="updateData()">UPDATE</button>
+
+</form>
+
+<script>
+
+function fetchData() {
+
+event.preventDefault();
+
+fetch("http://localhost:2020/emps")
+
+.then(res => {
+
+return res.json()
+
+})
+
+.then(data => {
+
+data.forEach(element => {
+
+console.log(element)
+
+});
+
+})
+
+}
+
+function addData() {
+
+// event.preventDefault();
+
+const emp = {
+
+"_id": document.getElementById("_id").value,
+
+"name": document.getElementById("name").value,
+
+"age": document.getElementById("age").value
+
+}
+
+fetch("http://localhost:2020/addemp", {
+
+method: "POST",
+
+headers: {
+
+'Content-Type': 'application/json'
+
+},
+
+body: JSON.stringify(emp)
+
+}).then((res) => {
+
+console.log(res);
+
+}).catch((err) => console.log(err))
+
+alert("TEST");
+
+}
+
+function deleteData(){
+
+  const emp={
+
+    "_id":document.getElementById('_id')
+
+  }
+
+  id=document.getElementById("_id").value;
+
+  console.log(id)
+
+  fetch("http://localhost:2020/deleteemp/"+id ,{
+
+    method:"DELETE",
+
+    headers : {
+
+        'Content-Type':'application/json'
+
+      },
+
+      body:JSON.stringify(emp)
+
+  }) .then(res=>{
+
+    return res.json()
+
+  })
+
+  .then(data=>{
+
+    data.forEach(ele=>{
+
+    console.log(ele)
+
+    })
+
+  })
+
+}
+
+function updateData(){
+
+  const emp={"_id":document.getElementById("_id").value,
+
+       "name":document.getElementById("name").value,
+
+       "age":document.getElementById("age").value
+
+       }
+
+  id=document.getElementById("_id").value,
+
+   fetch("http://localhost:2020/updateemp/"+id,{
+
+    method:"PUT",
+
+    headers : {
+
+        'Content-Type':'application/json'
+
+      },
+
+      body:JSON.stringify(emp)
+
+      })
+
+      .then(res=>{
+
+        console.log(res);
+
+      })
+
+      .catch( err=>console.log(err))
+
+}
+
+</script>
+
+</body>
+
+</html>
